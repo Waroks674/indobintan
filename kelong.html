@@ -388,7 +388,6 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="logo">
       KAMPOENG KELONG
@@ -399,7 +398,6 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
   <section class="menu-hero">
     <div class="menu-hero-content">
       <h1>Kampoeng Kelong</h1>
@@ -407,7 +405,6 @@
     </div>
   </section>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>Navigasi</h3>
@@ -423,7 +420,6 @@
 
   <div class="overlay" id="overlay"></div>
 
-  <!-- Konten Menu -->
   <main class="container">
     <h2 class="section-title">Menu Kami</h2>
     <div id="menu-container" class="menu-grid">
@@ -436,7 +432,6 @@
     </div>
   </main>
 
-  <!-- Modal Kategori -->
   <div class="modal" id="category-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -447,7 +442,6 @@
     </div>
   </div>
 
-  <!-- Modal Keranjang -->
   <div class="modal" id="cart-modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -463,7 +457,6 @@
     </div>
   </div>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <h3>Ikuti kami di media sosial</h3>
@@ -474,7 +467,7 @@
         <a href="https://youtube.com/@kampoengkelongs" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         <a href="https://x.com/kampoengkelongs" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
       </div>
-      <p class="copyright">&copy; 2025 Kampoeng Kelong. All rights reserved.<br>Powered by WarokSungo</p>
+      <p class="copyright">© 2025 Kampoeng Kelong. All rights reserved.<br>Powered by WarokSungo</p>
     </div>
   </footer>
 
@@ -629,10 +622,14 @@
       menuContainer.innerHTML = itemsToRender.length ? itemsToRender.map(item => {
         return `
           <div class="menu-card">
-            <img src="${item.gambar}" alt="${item.nama}" loading="lazy">
+            <a href="detail.html?nama=${encodeURIComponent(item.nama)}">
+              <img src="${item.gambar}" alt="${item.nama}" loading="lazy">
+            </a>
             <div class="card-body">
               <div class="category">${item.kategori}</div>
-              <h3>${item.nama}</h3>
+              <a href="detail.html?nama=${encodeURIComponent(item.nama)}">
+                <h3>${item.nama}</h3>
+              </a>
               <p class="price">Rp ${Number(item.harga).toLocaleString('id-ID')}</p>
               <button class="add-to-cart-btn" data-item='${JSON.stringify(item)}'>
                 <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
