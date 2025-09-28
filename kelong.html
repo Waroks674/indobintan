@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Kampoeng Kelong – Menu seafood segar langsung dari laut Bintan." />
+  <title>Kampoeng Kelong – Menu</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e63946;
+      --dark: #1d3557;
+      --light: #f8f9fa;
+      --gray: #8d99ae;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .menu-hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                  url('https://images.pexels.com/photos/1095033/pexels-photo-1095033.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800');
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+
+    .menu-hero-content {
+      max-width: 800px;
+      padding: 0 2rem;
+    }
+
+    .menu-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-hero p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: var(--white);
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .logo span {
+      display: block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray);
+      margin-top: -4px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 2000;
+      padding: 2rem 0;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0 1.5rem;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar ul a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar ul a:hover {
+      color: var(--primary);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    /* Konten */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      margin: 0.5rem auto;
+      border-radius: 2px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .menu-card {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .menu-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-body {
+      padding: 1.2rem;
+    }
+
+    .card-body h3 {
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .category {
+      font-size: 0.9rem;
+      color: var(--gray);
+      margin-bottom: 0.5rem;
+    }
+
+    .price {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 8px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #c1121f;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray);
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .pagination-btn {
+      padding: 8px 20px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pagination-btn:hover {
+      background: #c1121f;
+    }
+
+    .pagination-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Modal Umum */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 3000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    #category-list, #cart-items {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #category-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    #category-list li:hover {
+      color: var(--primary);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      padding: 2.5rem 5%;
+      margin-top: 2rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      margin-top: 1.5rem;
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+
+      .menu-hero h1 { font-size: 2.2rem; }
+      .menu-hero p { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      KAMPOENG KELONG
+      <span>seafood restaurant</span>
+    </div>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="menu-hero">
+    <div class="menu-hero-content">
+      <h1>Kampoeng Kelong</h1>
+      <p>Nikmati hidangan laut segar langsung dari nelayan Bintan, dimasak dengan resep tradisional yang autentik.</p>
+    </div>
+  </section>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Navigasi</h3>
+      <button id="close-sidebar" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+    </div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> Tentang Kami</a></li>
+      <li><a href="#" id="btn-category"><i class="fas fa-tags"></i> Kategori</a></li>
+      <li><a href="#" id="btn-cart"><i class="fas fa-shopping-cart"></i> Keranjang</a></li>
+    </ul>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Konten Menu -->
+  <main class="container">
+    <h2 class="section-title">Menu Kami</h2>
+    <div id="menu-container" class="menu-grid">
+      <div class="loading">Memuat menu...</div>
+    </div>
+
+    <div class="pagination">
+      <button id="prev-btn" class="pagination-btn" disabled>Previous</button>
+      <button id="next-btn" class="pagination-btn">Next</button>
+    </div>
+  </main>
+
+  <!-- Modal Kategori -->
+  <div class="modal" id="category-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Pilih Kategori</h3>
+        <button id="close-category-modal" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+      </div>
+      <ul id="category-list"></ul>
+    </div>
+  </div>
+
+  <!-- Modal Keranjang -->
+  <div class="modal" id="cart-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Keranjang Belanja</h3>
+        <button id="close-cart-modal" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+      </div>
+      <div id="cart-items" style="max-height: 300px; overflow-y: auto; margin: 15px 0;"></div>
+      <div style="border-top: 1px solid #eee; padding-top: 15px;">
+        <p><strong>Total: Rp <span id="cart-total">0</span></strong></p>
+        <a id="checkout-btn" href="#" class="pagination-btn" style="width:100%; text-align:center; display:block; margin-bottom:10px;">Checkout via WhatsApp</a>
+        <button id="clear-cart" style="width:100%; padding:8px; background:#dc3545; color:white; border:none; border-radius:8px;">Kosongkan Keranjang</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <h3>Ikuti kami di media sosial</h3>
+      <div class="social-links">
+        <a href="https://tiktok.com/@kampoengkelongs" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://instagram.com/kampoengkelongs" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://facebook.com/kampoengkelongs" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://youtube.com/@kampoengkelongs" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://x.com/kampoengkelongs" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+      <p class="copyright">&copy; 2025 Kampoeng Kelong. All rights reserved.<br>Powered by WarokSungo</p>
+    </div>
+  </footer>
+
+  <script>
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycby9ouMAhiw_hqP4OY8l4uIjzxsB8l6qNu_YJ9Ww8HZfptcAVaGz8kH-NsSCtKPi3R5xdQ/exec';
+    let allMenu = [];
+    const itemsPerPage = 5;
+    let currentPage = 1;
+    let currentFilter = 'all';
+
+    // DOM
+    const menuContainer = document.getElementById('menu-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const closeSidebar = document.getElementById('close-sidebar');
+
+    // Toggle Sidebar
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+    });
+
+    [closeSidebar, overlay].forEach(el => {
+      el.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+    });
+
+    // === KERANJANG ===
+    function getCart() {
+      return JSON.parse(localStorage.getItem('kampoeng_kelong_cart') || '[]');
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem('kampoeng_kelong_cart', JSON.stringify(cart));
+    }
+
+    function addToCart(item) {
+      let cart = getCart();
+      const existing = cart.find(i => i.nama === item.nama);
+      if (existing) {
+        existing.quantity = (existing.quantity || 1) + 1;
+      } else {
+        cart.push({ ...item, quantity: 1 });
+      }
+      saveCart(cart);
+      alert(`${item.nama} ditambahkan ke keranjang!`);
+    }
+
+    function removeFromCart(nama) {
+      let cart = getCart();
+      cart = cart.filter(item => item.nama !== nama);
+      saveCart(cart);
+    }
+
+    function showCartModal() {
+      const cart = getCart();
+      const itemsEl = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      const checkoutBtn = document.getElementById('checkout-btn');
+
+      if (cart.length === 0) {
+        itemsEl.innerHTML = '<p>Keranjang Anda kosong.</p>';
+        totalEl.textContent = '0';
+        checkoutBtn.style.display = 'none';
+      } else {
+        let total = 0;
+        let whatsappText = "Halo, saya ingin memesan dari Kampoeng Kelong:\n\n";
+
+        const html = cart.map(item => {
+          const qty = item.quantity || 1;
+          const subtotal = Number(item.harga) * qty;
+          total += subtotal;
+          whatsappText += `- ${item.nama} (${qty} pcs) - Rp ${Number(item.harga).toLocaleString('id-ID')}\n`;
+          return `
+            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
+              <div>
+                <strong>${item.nama}</strong><br>
+                <small>${qty} x Rp ${Number(item.harga).toLocaleString('id-ID')}</small>
+              </div>
+              <button class="remove-item" data-name="${item.nama}" style="background:#dc3545; color:white; border:none; width:24px; height:24px; border-radius:50%;">×</button>
+            </div>
+          `;
+        }).join('');
+
+        whatsappText += `\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nTerima kasih!`;
+        itemsEl.innerHTML = html;
+        totalEl.textContent = total.toLocaleString('id-ID');
+        checkoutBtn.href = `https://wa.me/6283807602539?text=${encodeURIComponent(whatsappText)}`;
+        checkoutBtn.style.display = 'block';
+
+        document.querySelectorAll('.remove-item').forEach(btn => {
+          btn.addEventListener('click', () => {
+            removeFromCart(btn.dataset.name);
+            showCartModal();
+          });
+        });
+      }
+
+      document.getElementById('cart-modal').style.display = 'flex';
+    }
+
+    document.getElementById('btn-cart').addEventListener('click', () => {
+      showCartModal();
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    document.getElementById('close-cart-modal').addEventListener('click', () => {
+      document.getElementById('cart-modal').style.display = 'none';
+    });
+
+    document.getElementById('clear-cart').addEventListener('click', () => {
+      localStorage.removeItem('kampoeng_kelong_cart');
+      showCartModal();
+    });
+
+    // === LOAD MENU ===
+    async function loadMenu() {
+      try {
+        const res = await fetch(SHEET_URL);
+        const data = await res.json();
+        allMenu = data.map(item => ({
+          nama: item['Nama Produk'] || '–',
+          kategori: item['Kategori'] || 'Umum',
+          harga: item['Harga'] || 0,
+          deskripsi: item['Deskripsi'] || '',
+          gambar: item['Gambar (URL)'] || 'https://via.placeholder.com/600x400?text=No+Image'
+        }));
+        renderMenu();
+        updatePagination();
+      } catch (e) {
+        menuContainer.innerHTML = '<p class="loading" style="color:var(--primary);">Gagal memuat menu.</p>';
+      }
+    }
+
+    function renderMenu() {
+      let itemsToRender = currentFilter === 'all' 
+        ? allMenu 
+        : allMenu.filter(m => m.kategori === currentFilter);
+
+      if (currentFilter === 'all') {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        itemsToRender = itemsToRender.slice(start, end);
+      }
+
+      menuContainer.innerHTML = itemsToRender.length ? itemsToRender.map(item => {
+        return `
+          <div class="menu-card">
+            <img src="${item.gambar}" alt="${item.nama}" loading="lazy">
+            <div class="card-body">
+              <div class="category">${item.kategori}</div>
+              <h3>${item.nama}</h3>
+              <p class="price">Rp ${Number(item.harga).toLocaleString('id-ID')}</p>
+              <button class="add-to-cart-btn" data-item='${JSON.stringify(item)}'>
+                <i class="fas fa-cart-plus"></i> Tambah ke Keranjang
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('') : '<p class="loading">Tidak ada menu.</p>';
+
+      // Tambahkan event ke tombol keranjang
+      document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = JSON.parse(btn.dataset.item);
+          addToCart(item);
+        });
+      });
+
+      document.querySelector('.pagination').style.display = currentFilter === 'all' ? 'flex' : 'none';
+    }
+
+    function updatePagination() {
+      const totalPages = Math.ceil(allMenu.length / itemsPerPage);
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderMenu(); updatePagination(); } });
+    nextBtn.addEventListener('click', () => { 
+      const totalPages = Math.ceil(allMenu.length / itemsPerPage);
+      if (currentPage < totalPages) { currentPage++; renderMenu(); updatePagination(); } 
+    });
+
+    // === KATEGORI ===
+    function renderCategoryList() {
+      const cats = [...new Set(allMenu.map(m => m.kategori))];
+      const list = document.getElementById('category-list');
+      list.innerHTML = `<li data-category="all"><strong>Semua Kategori</strong></li>` + 
+        cats.map(cat => `<li data-category="${cat}">${cat}</li>`).join('');
+      
+      list.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', () => {
+          currentFilter = li.dataset.category;
+          currentPage = 1;
+          renderMenu();
+          document.getElementById('category-modal').style.display = 'none';
+        });
+      });
+    }
+
+    document.getElementById('btn-category').addEventListener('click', () => {
+      renderCategoryList();
+      document.getElementById('category-modal').style.display = 'flex';
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+    });
+
+    document.getElementById('close-category-modal').addEventListener('click', () => {
+      document.getElementById('category-modal').style.display = 'none';
+    });
+
+    // Jalankan
+    document.addEventListener('DOMContentLoaded', loadMenu);
+  </script>
+</body>
+</html>
