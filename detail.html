@@ -269,7 +269,6 @@
 </head>
 <body>
 
-  <!-- Header -->
   <header>
     <div class="logo">
       KAMPOENG KELONG
@@ -280,7 +279,6 @@
     </div>
   </header>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h3>Navigasi</h3>
@@ -296,7 +294,6 @@
 
   <div class="overlay" id="overlay"></div>
 
-  <!-- Konten Detail -->
   <main class="container">
     <div class="product-detail">
       <img id="product-image" src="" alt="Gambar Menu" class="product-image">
@@ -317,7 +314,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="footer-content">
       <h3>Ikuti kami di media sosial</h3>
@@ -328,11 +324,13 @@
         <a href="https://youtube.com/@kampoengkelongs" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         <a href="https://x.com/kampoengkelongs" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
       </div>
-      <p class="copyright">&copy; 2025 Kampoeng Kelong. All rights reserved.<br>Powered by WarokSungo</p>
+      <p class="copyright">© 2025 Kampoeng Kelong. All rights reserved.<br>Powered by WarokSungo</p>
     </div>
   </footer>
 
   <script>
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycby9ouMAhiw_hqP4OY8l4uIjzxsB8l6qNu_YJ9Ww8HZfptcAVaGz8kH-NsSCtKPi3R5xdQ/exec';
+
     // Toggle Sidebar
     document.getElementById('hamburger').addEventListener('click', () => {
       document.getElementById('sidebar').classList.add('active');
@@ -346,68 +344,94 @@
       });
     });
 
-    // Ambil data dari URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const nama = urlParams.get('nama') || 'Menu Kampoeng Kelong';
-    const kategori = urlParams.get('kategori') || 'Umum';
-    const harga = urlParams.get('harga') || 0;
-    const deskripsi = urlParams.get('deskripsi') || 'Cek menu seafood segar dari Kampoeng Kelong!';
-    const gambar = urlParams.get('gambar') || 'https://via.placeholder.com/600x400?text=No+Image';
-    const url = window.location.href;
+    // === Tampilkan Data ===
+    async function loadProductDetail() {
+      // 1. Ambil nama produk dari URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const productName = urlParams.get('nama');
 
-    // Tampilkan data
-    document.getElementById('product-name').textContent = nama;
-    document.getElementById('product-category').textContent = kategori;
-    document.getElementById('product-price').textContent = `Rp ${Number(harga).toLocaleString('id-ID')}`;
-    document.getElementById('product-description').textContent = deskripsi;
-    document.getElementById('product-image').src = gambar;
-
-    // Tombol Beli → WhatsApp
-    const whatsappText = `Halo, saya ingin memesan:\n\n- ${nama}\n- Harga: Rp ${Number(harga).toLocaleString('id-ID')}`;
-    document.getElementById('btn-buy').href = `https://wa.me/6283807602549?text=${encodeURIComponent(whatsappText)}`;
-
-    // Tombol Bagikan Cerdas
-    document.getElementById('btn-share').addEventListener('click', () => {
-      const shareData = {
-        title: `Kampoeng Kelong - ${nama}`,
-        text: `Cek menu ini: ${nama}\n${deskripsi}`,
-        url: url
-      };
-
-      if (navigator.share) {
-        // HP: gunakan share native
-        navigator.share(shareData).catch(console.error);
-      } else {
-        // Desktop: tampilkan popup
-        const popup = document.createElement('div');
-        popup.innerHTML = `
-          <div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; display:flex; justify-content:center; align-items:center;">
-            <div style="background:white; padding:20px; border-radius:12px; text-align:center; max-width:300px;">
-              <h3 style="margin:0 0 15px; color:#1d3557;">Bagikan ke:</h3>
-              <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
-                <a href="https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}" target="_blank" style="color:#25D366;"><i class="fab fa-whatsapp fa-2x"></i></a>
-                <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}" target="_blank" style="color:#4267B2;"><i class="fab fa-facebook-f fa-2x"></i></a>
-                <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}" target="_blank" style="color:#1DA1F2;"><i class="fab fa-twitter fa-2x"></i></a>
-                <a href="https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}" target="_blank" style="color:#0088cc;"><i class="fab fa-telegram fa-2x"></i></a>
-              </div>
-              <button id="copy-link" style="margin-top:15px; padding:8px 15px; background:#e63946; color:white; border:none; border-radius:6px; cursor:pointer;">Salin Link</button>
-              <button id="close-popup" style="margin-top:10px; padding:6px 12px; background:#ccc; border:none; border-radius:6px; cursor:pointer;">Tutup</button>
-            </div>
-          </div>
-        `;
-        document.body.appendChild(popup);
-
-        document.getElementById('copy-link').addEventListener('click', () => {
-          navigator.clipboard.writeText(shareData.url)
-            .then(() => alert('Link disalin!'))
-            .catch(() => alert('Gagal menyalin.'));
-        });
-
-        document.getElementById('close-popup').addEventListener('click', () => {
-          document.body.removeChild(popup);
-        });
+      if (!productName) {
+        document.getElementById('product-name').textContent = 'Produk tidak ditemukan.';
+        return;
       }
-    });
+
+      try {
+        // 2. Ambil semua data menu dari Google Sheet
+        const res = await fetch(SHEET_URL);
+        const data = await res.json();
+        
+        // 3. Cari produk yang sesuai dengan nama dari URL
+        const product = data.find(item => item['Nama Produk'] === productName);
+
+        if (product) {
+          // 4. Jika produk ditemukan, tampilkan data di halaman
+          const productNama = product['Nama Produk'] || '–';
+          const productKategori = product['Kategori'] || 'Umum';
+          const productHarga = product['Harga'] || 0;
+          const productDeskripsi = product['Deskripsi'] || 'Deskripsi tidak tersedia.';
+          const productGambar = product['Gambar (URL)'] || 'https://via.placeholder.com/600x400?text=No+Image';
+          
+          document.title = `Detail Menu – ${productNama}`;
+          document.getElementById('product-name').textContent = productNama;
+          document.getElementById('product-category').textContent = productKategori;
+          document.getElementById('product-price').textContent = `Rp ${Number(productHarga).toLocaleString('id-ID')}`;
+          document.getElementById('product-description').textContent = productDeskripsi;
+          document.getElementById('product-image').src = productGambar;
+
+          // Perbarui tautan WhatsApp dengan data yang benar
+          const whatsappText = `Halo, saya ingin memesan:\n\n- ${productNama}\n- Harga: Rp ${Number(productHarga).toLocaleString('id-ID')}`;
+          document.getElementById('btn-buy').href = `https://wa.me/6283807602549?text=${encodeURIComponent(whatsappText)}`;
+
+          // Perbarui data untuk tombol bagikan
+          const url = window.location.href;
+          document.getElementById('btn-share').addEventListener('click', () => {
+              const shareData = {
+                  title: `Kampoeng Kelong - ${productNama}`,
+                  text: `Cek menu ini: ${productNama}\n${productDeskripsi}`,
+                  url: url
+              };
+              if (navigator.share) {
+                  navigator.share(shareData).catch(console.error);
+              } else {
+                  // Fallback for desktop
+                  const popup = document.createElement('div');
+                  // ... (same as original popup code)
+                  popup.innerHTML = `<div style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; display:flex; justify-content:center; align-items:center;">
+                                      <div style="background:white; padding:20px; border-radius:12px; text-align:center; max-width:300px;">
+                                        <h3 style="margin:0 0 15px; color:#1d3557;">Bagikan ke:</h3>
+                                        <div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">
+                                          <a href="https://wa.me/?text=${encodeURIComponent(shareData.text + ' ' + shareData.url)}" target="_blank" style="color:#25D366;"><i class="fab fa-whatsapp fa-2x"></i></a>
+                                          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareData.url)}" target="_blank" style="color:#4267B2;"><i class="fab fa-facebook-f fa-2x"></i></a>
+                                          <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(shareData.text)}&url=${encodeURIComponent(shareData.url)}" target="_blank" style="color:#1DA1F2;"><i class="fab fa-twitter fa-2x"></i></a>
+                                          <a href="https://t.me/share/url?url=${encodeURIComponent(shareData.url)}&text=${encodeURIComponent(shareData.text)}" target="_blank" style="color:#0088cc;"><i class="fab fa-telegram fa-2x"></i></a>
+                                        </div>
+                                        <button id="copy-link" style="margin-top:15px; padding:8px 15px; background:#e63946; color:white; border:none; border-radius:6px; cursor:pointer;">Salin Link</button>
+                                        <button id="close-popup" style="margin-top:10px; padding:6px 12px; background:#ccc; border:none; border-radius:6px; cursor:pointer;">Tutup</button>
+                                      </div>
+                                    </div>`;
+                  document.body.appendChild(popup);
+                  document.getElementById('copy-link').addEventListener('click', () => {
+                      navigator.clipboard.writeText(shareData.url)
+                          .then(() => alert('Link disalin!'))
+                          .catch(() => alert('Gagal menyalin.'));
+                  });
+                  document.getElementById('close-popup').addEventListener('click', () => {
+                      document.body.removeChild(popup);
+                  });
+              }
+          });
+
+        } else {
+          document.getElementById('product-name').textContent = 'Produk tidak ditemukan.';
+        }
+      } catch (e) {
+        document.getElementById('product-name').textContent = 'Gagal memuat detail menu.';
+        console.error(e);
+      }
+    }
+
+    // Jalankan saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', loadProductDetail);
   </script>
 </body>
 </html>
