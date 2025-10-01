@@ -8,7 +8,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
-    /* ... (CSS yang sudah ada) ... */
     :root {
       --primary: #e63946;
       --dark: #1d3557;
@@ -62,6 +61,30 @@
       font-weight: 500;
       color: var(--gray);
       margin-top: -4px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      color: var(--dark);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 50%;
     }
 
     .hamburger {
@@ -118,6 +141,19 @@
     .sidebar ul a:hover {
       color: var(--primary);
     }
+    
+    .sidebar .cart-count {
+      margin-left: auto;
+      position: static;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      min-width: 24px;
+      text-align: center;
+    }
 
     .overlay {
       position: fixed;
@@ -137,7 +173,7 @@
     /* Hero Section */
     .menu-hero {
       background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                  url('http://waroksungo.xtgem.com/0123/image/Kel.jpg?auto=compress&cs=tinysrgb&w=1920&h=800');
+                  url('https://images.pexels.com/photos/1095033/pexels-photo-1095033.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800');
       background-size: cover;
       background-position: center;
       height: 60vh;
@@ -366,7 +402,9 @@
       .hamburger {
         display: block;
       }
-
+      .cart-icon {
+        display: none; /* Sembunyikan ikon di mobile jika menu utama sudah ada di sidebar */
+      }
       .menu-hero h1 { font-size: 2.2rem; }
       .menu-hero p { font-size: 1rem; }
     }
@@ -381,8 +419,14 @@
       KAMPOENG KELONG
       <span>seafood restaurant</span>
     </div>
-    <div class="hamburger" id="hamburger">
-      <i class="fas fa-bars"></i>
+    <div class="header-right">
+      <a href="cart.html" class="cart-icon" aria-label="Keranjang Belanja">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count">0</span>
+      </a>
+      <div class="hamburger" id="hamburger">
+        <i class="fas fa-bars"></i>
+      </div>
     </div>
   </header>
 
@@ -401,7 +445,12 @@
     <ul>
       <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
       <li><a href="about.html"><i class="fas fa-info-circle"></i> Tentang Kami</a></li>
-      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Keranjang</a></li>
+      <li>
+        <a href="cart.html">
+          <i class="fas fa-shopping-cart"></i> Keranjang
+          <span class="cart-count">0</span>
+        </a>
+      </li>
     </ul>
   </div>
 
@@ -477,7 +526,8 @@
         renderMenu();
         updatePagination();
       } catch (e) {
-        menuContainer.innerHTML = '<p class="loading" style="color:var(--primary);">Gagal memuat menu.</p>';
+        console.error("Gagal memuat menu:", e);
+        menuContainer.innerHTML = '<p class="loading" style="color:var(--primary);">Gagal memuat menu. Silakan coba lagi nanti.</p>';
       }
     }
 
@@ -508,6 +558,7 @@
       document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const item = JSON.parse(btn.dataset.item);
+          // Menggunakan fungsi addToCart dari cart.js
           addToCart(item);
         });
       });
@@ -519,15 +570,28 @@
       nextBtn.disabled = currentPage >= totalPages;
     }
 
-    prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderMenu(); updatePagination(); } });
+    prevBtn.addEventListener('click', () => { 
+      if (currentPage > 1) { 
+        currentPage--; 
+        renderMenu(); 
+        updatePagination(); 
+      } 
+    });
     nextBtn.addEventListener('click', () => { 
       const totalPages = Math.ceil(allMenu.length / itemsPerPage);
-      if (currentPage < totalPages) { currentPage++; renderMenu(); updatePagination(); } 
+      if (currentPage < totalPages) { 
+        currentPage++; 
+        renderMenu(); 
+        updatePagination(); 
+      } 
     });
 
-    // Jalankan
-    document.addEventListener('DOMContentLoaded', loadMenu);
+    // Jalankan saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', () => {
+      loadMenu();
+      // Panggil fungsi dari cart.js untuk memperbarui hitungan keranjang
+      updateCartBadge();
+    });
   </script>
 </body>
 </html>
-
