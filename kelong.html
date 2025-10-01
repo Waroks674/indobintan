@@ -8,6 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
+    /* ... (CSS yang sudah ada) ... */
     :root {
       --primary: #e63946;
       --dark: #1d3557;
@@ -29,37 +30,9 @@
       line-height: 1.6;
     }
 
-    /* Hero Section */
-    .menu-hero {
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                  url('http://waroksungo.xtgem.com/0123/image/Kel.jpg?auto=compress&cs=tinysrgb&w=1920&h=800');
-      background-size: cover;
-      background-position: center;
-      height: 60vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: var(--white);
-      margin-bottom: 2rem;
-    }
-
-    .menu-hero-content {
-      max-width: 800px;
-      padding: 0 2rem;
-    }
-
-    .menu-hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .menu-hero p {
-      font-size: 1.2rem;
-      opacity: 0.95;
-      max-width: 600px;
-      margin: 0 auto;
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     /* Header */
@@ -90,28 +63,7 @@
       color: var(--gray);
       margin-top: -4px;
     }
-    
-    /* Navigasi Desktop */
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      gap: 1.5rem;
-    }
 
-    nav a {
-      text-decoration: none;
-      color: var(--dark);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    nav a:hover {
-      color: var(--primary);
-    }
-
-    /* Navigasi Mobile (Hamburger) */
     .hamburger {
       display: none;
       font-size: 1.5rem;
@@ -182,6 +134,34 @@
       display: block;
     }
 
+    /* Hero Section */
+    .menu-hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                  url('https://images.pexels.com/photos/1095033/pexels-photo-1095033.jpeg?auto=compress&cs=tinysrgb&w=1920&h=800');
+      background-size: cover;
+      background-position: center;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--white);
+      margin-bottom: 2rem;
+    }
+
+    .menu-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-hero p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
     /* Konten */
     .container {
       max-width: 1200px;
@@ -239,17 +219,14 @@
       font-size: 1.3rem;
     }
     
-    /* Perbaikan: Atur ulang warna teks nama menu */
     .menu-card a h3 {
       color: var(--dark);
     }
     
-    /* Tambahan: Menghilangkan garis bawah pada tautan di dalam kartu menu */
     .menu-card a {
         text-decoration: none;
     }
     
-    /* Tambahan: Menambahkan kembali garis bawah saat di-hover */
     .menu-card a:hover {
         text-decoration: underline;
     }
@@ -318,54 +295,27 @@
       cursor: not-allowed;
     }
 
-    /* Modal Umum */
-    .modal {
-      display: none;
+    /* Notifikasi Toast */
+    .toast {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 3000;
-      justify-content: center;
-      align-items: center;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: rgba(60, 60, 60, 0.9);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
-
-    .modal-content {
-      background: white;
-      border-radius: 16px;
-      width: 90%;
-      max-width: 400px;
-      padding: 20px;
-      max-height: 80vh;
-      overflow-y: auto;
+    .toast.show {
+      opacity: 1;
+      visibility: visible;
     }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    #category-list, #cart-items {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #category-list li {
-      padding: 12px 0;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      font-weight: 500;
-    }
-
-    #category-list li:hover {
-      color: var(--primary);
-    }
-
+    
     /* Footer */
     footer {
       background: var(--dark);
@@ -416,10 +366,6 @@
       .hamburger {
         display: block;
       }
-      
-      nav {
-        display: none;
-      }
 
       .menu-hero h1 { font-size: 2.2rem; }
       .menu-hero p { font-size: 1rem; }
@@ -428,21 +374,13 @@
 </head>
 <body>
 
+  <div id="toast-notification" class="toast"></div>
+
   <header>
     <div class="logo">
       KAMPOENG KELONG
       <span>seafood restaurant</span>
     </div>
-    
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">Tentang Kami</a></li>
-        <li><a href="#" id="btn-category">Menu</a></li>
-        <li><a href="#" id="btn-cart">Keranjang</a></li>
-      </ul>
-    </nav>
-    
     <div class="hamburger" id="hamburger">
       <i class="fas fa-bars"></i>
     </div>
@@ -463,8 +401,7 @@
     <ul>
       <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
       <li><a href="about.html"><i class="fas fa-info-circle"></i> Tentang Kami</a></li>
-      <li><a href="#" id="btn-category"><i class="fas fa-tags"></i> Kategori</a></li>
-      <li><a href="#" id="btn-cart"><i class="fas fa-shopping-cart"></i> Keranjang</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Keranjang</a></li>
     </ul>
   </div>
 
@@ -482,31 +419,6 @@
     </div>
   </main>
 
-  <div class="modal" id="category-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Pilih Kategori</h3>
-        <button id="close-category-modal" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
-      </div>
-      <ul id="category-list"></ul>
-    </div>
-  </div>
-
-  <div class="modal" id="cart-modal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>Keranjang Belanja</h3>
-        <button id="close-cart-modal" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
-      </div>
-      <div id="cart-items" style="max-height: 300px; overflow-y: auto; margin: 15px 0;"></div>
-      <div style="border-top: 1px solid #eee; padding-top: 15px;">
-        <p><strong>Total: Rp <span id="cart-total">0</span></strong></p>
-        <a id="checkout-btn" href="#" class="pagination-btn" style="width:100%; text-align:center; display:block; margin-bottom:10px;">Checkout via WhatsApp</a>
-        <button id="clear-cart" style="width:100%; padding:8px; background:#dc3545; color:white; border:none; border-radius:8px;">Kosongkan Keranjang</button>
-      </div>
-    </div>
-  </div>
-
   <footer>
     <div class="footer-content">
       <h3>Ikuti kami di media sosial</h3>
@@ -521,12 +433,12 @@
     </div>
   </footer>
 
+  <script src="cart.js"></script>
   <script>
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycby9ouMAhiw_hqP4OY8l4uIjzxsB8l6qNu_YJ9Ww8HZfptcAVaGz8kH-NsSCtKPi3R5xdQ/exec';
     let allMenu = [];
     const itemsPerPage = 5;
     let currentPage = 1;
-    let currentFilter = 'all';
 
     // DOM
     const menuContainer = document.getElementById('menu-container');
@@ -550,95 +462,6 @@
       });
     });
 
-    // === KERANJANG ===
-    function getCart() {
-      return JSON.parse(localStorage.getItem('kampoeng_kelong_cart') || '[]');
-    }
-
-    function saveCart(cart) {
-      localStorage.setItem('kampoeng_kelong_cart', JSON.stringify(cart));
-    }
-
-    function addToCart(item) {
-      let cart = getCart();
-      const existing = cart.find(i => i.nama === item.nama);
-      if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
-      } else {
-        cart.push({ ...item, quantity: 1 });
-      }
-      saveCart(cart);
-      alert(`${item.nama} ditambahkan ke keranjang!`);
-    }
-
-    function removeFromCart(nama) {
-      let cart = getCart();
-      cart = cart.filter(item => item.nama !== nama);
-      saveCart(cart);
-    }
-
-    function showCartModal() {
-      const cart = getCart();
-      const itemsEl = document.getElementById('cart-items');
-      const totalEl = document.getElementById('cart-total');
-      const checkoutBtn = document.getElementById('checkout-btn');
-
-      if (cart.length === 0) {
-        itemsEl.innerHTML = '<p>Keranjang Anda kosong.</p>';
-        totalEl.textContent = '0';
-        checkoutBtn.style.display = 'none';
-      } else {
-        let total = 0;
-        let whatsappText = "Halo, saya ingin memesan dari Kampoeng Kelong:\n\n";
-
-        const html = cart.map(item => {
-          const qty = item.quantity || 1;
-          const subtotal = Number(item.harga) * qty;
-          total += subtotal;
-          whatsappText += `- ${item.nama} (${qty} pcs) - Rp ${Number(item.harga).toLocaleString('id-ID')}\n`;
-          return `
-            <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #eee;">
-              <div>
-                <strong>${item.nama}</strong><br>
-                <small>${qty} x Rp ${Number(item.harga).toLocaleString('id-ID')}</small>
-              </div>
-              <button class="remove-item" data-name="${item.nama}" style="background:#dc3545; color:white; border:none; width:24px; height:24px; border-radius:50%;">×</button>
-            </div>
-          `;
-        }).join('');
-
-        whatsappText += `\nTotal: Rp ${total.toLocaleString('id-ID')}\n\nTerima kasih!`;
-        itemsEl.innerHTML = html;
-        totalEl.textContent = total.toLocaleString('id-ID');
-        checkoutBtn.href = `https://wa.me/6283807602539?text=${encodeURIComponent(whatsappText)}`;
-        checkoutBtn.style.display = 'block';
-
-        document.querySelectorAll('.remove-item').forEach(btn => {
-          btn.addEventListener('click', () => {
-            removeFromCart(btn.dataset.name);
-            showCartModal();
-          });
-        });
-      }
-
-      document.getElementById('cart-modal').style.display = 'flex';
-    }
-
-    document.getElementById('btn-cart').addEventListener('click', () => {
-      showCartModal();
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-    });
-
-    document.getElementById('close-cart-modal').addEventListener('click', () => {
-      document.getElementById('cart-modal').style.display = 'none';
-    });
-
-    document.getElementById('clear-cart').addEventListener('click', () => {
-      localStorage.removeItem('kampoeng_kelong_cart');
-      showCartModal();
-    });
-
     // === LOAD MENU ===
     async function loadMenu() {
       try {
@@ -659,15 +482,7 @@
     }
 
     function renderMenu() {
-      let itemsToRender = currentFilter === 'all' 
-        ? allMenu 
-        : allMenu.filter(m => m.kategori === currentFilter);
-
-      if (currentFilter === 'all') {
-        const start = (currentPage - 1) * itemsPerPage;
-        const end = start + itemsPerPage;
-        itemsToRender = itemsToRender.slice(start, end);
-      }
+      let itemsToRender = allMenu.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
       menuContainer.innerHTML = itemsToRender.length ? itemsToRender.map(item => {
         return `
@@ -696,8 +511,6 @@
           addToCart(item);
         });
       });
-
-      document.querySelector('.pagination').style.display = currentFilter === 'all' ? 'flex' : 'none';
     }
 
     function updatePagination() {
@@ -710,34 +523,6 @@
     nextBtn.addEventListener('click', () => { 
       const totalPages = Math.ceil(allMenu.length / itemsPerPage);
       if (currentPage < totalPages) { currentPage++; renderMenu(); updatePagination(); } 
-    });
-
-    // === KATEGORI ===
-    function renderCategoryList() {
-      const cats = [...new Set(allMenu.map(m => m.kategori))];
-      const list = document.getElementById('category-list');
-      list.innerHTML = `<li data-category="all"><strong>Semua Kategori</strong></li>` + 
-        cats.map(cat => `<li data-category="${cat}">${cat}</li>`).join('');
-      
-      list.querySelectorAll('li').forEach(li => {
-        li.addEventListener('click', () => {
-          currentFilter = li.dataset.category;
-          currentPage = 1;
-          renderMenu();
-          document.getElementById('category-modal').style.display = 'none';
-        });
-      });
-    }
-
-    document.getElementById('btn-category').addEventListener('click', () => {
-      renderCategoryList();
-      document.getElementById('category-modal').style.display = 'flex';
-      sidebar.classList.remove('active');
-      overlay.classList.remove('active');
-    });
-
-    document.getElementById('close-category-modal').addEventListener('click', () => {
-      document.getElementById('category-modal').style.display = 'none';
     });
 
     // Jalankan
