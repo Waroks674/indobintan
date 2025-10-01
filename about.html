@@ -1,1 +1,417 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tentang Kami | Indobintan Tour and Travel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    :root {
+      --primary: #e63946;
+      --dark: #1d3557;
+      --light: #f8f9fa;
+      --gray: #8d99ae;
+      --white: #ffffff;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header */
+    header {
+      background: var(--white);
+      padding: 1.2rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .logo span {
+      display: block;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--gray);
+      margin-top: -4px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+
+    /* Desktop Navigasi */
+    header nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    header nav a {
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    header nav a:hover {
+      color: var(--primary);
+    }
+
+    /* Sidebar Mobile */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      z-index: 2000;
+      padding: 2rem 0;
+    }
+
+    .sidebar.active {
+      left: 0;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0 1.5rem;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 1rem;
+    }
+
+    .sidebar ul a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar ul a:hover {
+      color: var(--primary);
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 1999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+    
+    /* Halaman About */
+    .container {
+        max-width: 960px;
+        margin: 2rem auto;
+        padding: 0 20px;
+    }
+    
+    .about-logo {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .about-logo img {
+        max-width: 150px;
+        height: auto;
+    }
+
+    .section {
+      padding: 3rem 0;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      margin: 0.5rem auto;
+      border-radius: 2px;
+    }
+
+    .about-text {
+      font-size: 1.1rem;
+      text-align: justify;
+      margin-bottom: 2rem;
+    }
+
+    .services-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 300px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-8px);
+    }
+    
+    .service-card i {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .service-card h4 {
+        margin-bottom: 0.5rem;
+    }
+    
+    .service-card p {
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark);
+      color: var(--white);
+      padding: 2.5rem 5%;
+      margin-top: 2rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      margin: 1.5rem 0;
+    }
+
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+    }
+
+    .copyright {
+      margin-top: 1.5rem;
+      color: #a0aec0;
+      font-size: 0.9rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+      header nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">
+      INDOBINTAN
+      <span>tour and travel</span>
+    </a>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">Tentang Kami</a></li>
+            <li><a href="kelong.html">Menu</a></li>
+            <li><a href="cart.html">Keranjang</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+  </header>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Navigasi</h3>
+      <button id="close-sidebar" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">×</button>
+    </div>
+    <ul>
+      <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="about.html"><i class="fas fa-info-circle"></i> Tentang Kami</a></li>
+      <li><a href="kelong.html"><i class="fas fa-utensils"></i> Menu</a></li>
+      <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Keranjang</a></li>
+    </ul>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <main class="container">
+    <section class="section" style="padding-bottom: 0;">
+      <div class="about-logo">
+        <img src="http://waroksungo.xtgem.com/0123/Logo2.png" alt="Logo Indobintan">
+      </div>
+      <h1 class="section-title">Tentang Indobintan</h1>
+      <p class="about-text">
+        Sejak berdiri, Indobintan telah berkomitmen untuk menjadi mitra terpercaya Anda dalam menjelajahi keindahan Bintan. Kami memulai perjalanan sebagai penyedia jasa travel, dan kini berkembang menjadi penyedia layanan wisata lengkap yang mencakup transportasi, relaksasi, dan kuliner.
+      </p>
+      <p class="about-text">
+        Misi kami adalah memberikan pengalaman liburan yang tak terlupakan dan bebas repot bagi setiap pelanggan, memastikan kenyamanan dan kepuasan Anda adalah prioritas utama.
+      </p>
+    </section>
+
+    <section class="section" style="background:none;">
+      <h2 class="section-title">Layanan Kami</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <i class="fas fa-car"></i>
+          <h4>Jasa Travel & Transport</h4>
+          <p>Layanan transportasi yang nyaman dan andal di kawasan Lagoi, Bintan. Siap mengantar Anda ke destinasi wisata terbaik.</p>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-spa"></i>
+          <h4>Layanan Spa</h4>
+          <p>Nikmati momen relaksasi total dengan layanan spa profesional kami yang dirancang untuk meremajakan tubuh dan pikiran Anda.</p>
+        </div>
+        <div class="service-card">
+          <i class="fas fa-utensils"></i>
+          <h4>Restoran Kampoeng Kelong</h4>
+          <p>Sajikan hidangan laut segar langsung dari laut Bintan, berlokasi di **Sebong Sungai Mangrove**. Rasakan cita rasa autentik yang tiada duanya.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Mengapa Memilih Kami?</h2>
+        <div style="text-align: center; font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+            <p style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 8px;"></i> **Pengalaman Lokal:** Kami memahami Bintan luar dalam, memastikan Anda mendapatkan rekomendasi terbaik.</p>
+            <p style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 8px;"></i> **Layanan Terpadu:** Semua kebutuhan liburan Anda, dari transportasi hingga kuliner, bisa didapatkan di satu tempat.</p>
+            <p style="margin-bottom: 1rem;"><i class="fas fa-check-circle" style="color: #28a745; margin-right: 8px;"></i> **Kualitas Terjamin:** Kami berkomitmen untuk memberikan layanan terbaik dan hidangan seafood tersegar.</p>
+        </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <h3>Ikuti kami di media sosial</h3>
+      <div class="social-links">
+        <a href="https://tiktok.com/@kampoengkelongs" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://instagram.com/kampoengkelongs" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://facebook.com/kampoengkelongs" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://youtube.com/@kampoengkelongs" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://x.com/kampoengkelongs" target="_blank" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+      <p class="copyright">© 2025 Indobintan. All rights reserved.<br>Powered by WarokSungo</p>
+    </div>
+  </footer>
+
+  <script src="cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Inisialisasi DOM dan Event Listener untuk Hamburger Menu
+      const hamburger = document.getElementById('hamburger');
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const closeSidebar = document.getElementById('close-sidebar');
+
+      hamburger.addEventListener('click', () => {
+        sidebar.classList.add('active');
+        overlay.classList.add('active');
+      });
+
+      [closeSidebar, overlay].forEach(el => {
+        el.addEventListener('click', () => {
+          sidebar.classList.remove('active');
+          overlay.classList.remove('active');
+        });
+      });
+      
+      // Update badge di halaman ini
+      if (typeof updateCartBadge === 'function') {
+        updateCartBadge();
+      }
+    });
+  </script>
+</body>
+  </html>
