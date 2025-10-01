@@ -1,30 +1,41 @@
-
-// Cart.js
+// cart.js
 const whatsappNumber = '6283807602549'; // Nomor WhatsApp konsisten
 
 // Mendapatkan data keranjang dari Local Storage
 function getCart() {
-  return JSON.parse(localStorage.getItem('kampoeng_kelong_cart') || '[]');
+  try {
+    return JSON.parse(localStorage.getItem('kampoeng_kelong_cart') || '[]');
+  } catch (e) {
+    console.error('Error parsing cart from localStorage:', e);
+    return [];
+  }
 }
 
 // Menyimpan data keranjang ke Local Storage
 function saveCart(cart) {
-  localStorage.setItem('kampoeng_kelong_cart', JSON.stringify(cart));
-  updateCartBadge();
-  // renderCart() hanya dipanggil di Cart.html, jadi tidak di sini
+  try {
+    localStorage.setItem('kampoeng_kelong_cart', JSON.stringify(cart));
+    updateCartBadge();
+  } catch (e) {
+    console.error('Error saving cart to localStorage:', e);
+  }
 }
 
-// Memperbarui badge jumlah item di navigasi
+// Memperbarui badge jumlah item di navigasi (header dan sidebar)
 function updateCartBadge() {
-  const cart = getCart();
-  const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-  const badges = document.querySelectorAll('#cart-badge');
-  badges.forEach(badge => {
-    if (badge) {
-      badge.textContent = totalItems;
-      badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
-    }
-  });
+  try {
+    const cart = getCart();
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const badges = document.querySelectorAll('.cart-count'); // Update semua .cart-count
+    badges.forEach(badge => {
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
+      }
+    });
+  } catch (e) {
+    console.error('Error updating cart badge:', e);
+  }
 }
 
 // Menampilkan notifikasi toast
@@ -36,40 +47,55 @@ function showToast(message) {
     setTimeout(() => {
       toast.classList.remove('show');
     }, 3000);
+  } else {
+    console.warn('Toast element not found.');
   }
 }
 
 // Menambahkan item ke keranjang
 function addToCart(item) {
-  let cart = getCart();
-  const existing = cart.find(i => i.nama === item.nama);
-  if (existing) {
-    existing.quantity = (existing.quantity || 1) + 1;
-  } else {
-    cart.push({ ...item, quantity: 1 });
+  try {
+    let cart = getCart();
+    const existing = cart.find(i => i.nama === item.nama);
+    if (existing) {
+      existing.quantity = (existing.quantity || 1) + 1;
+    } else {
+      cart.push({ ...item, quantity: 1 });
+    }
+    saveCart(cart);
+    showToast(`${item.nama} ditambahkan ke keranjang!`);
+  } catch (e) {
+    console.error('Error adding to cart:', e);
+    showToast('Gagal menambahkan ke keranjang.');
   }
-  saveCart(cart);
-  showToast(`${item.nama} ditambahkan ke keranjang!`);
 }
 
 // Menghapus item dari keranjang
 function removeItem(nama) {
-  let cart = getCart();
-  cart = cart.filter(item => item.nama !== nama);
-  saveCart(cart);
+  try {
+    let cart = getCart();
+    cart = cart.filter(item => item.nama !== nama);
+    saveCart(cart);
+  } catch (e) {
+    console.error('Error removing item from cart:', e);
+  }
 }
 
 // Mengubah jumlah item
 function updateQuantity(nama, change) {
-  let cart = getCart();
-  const item = cart.find(i => i.nama === nama);
-  if (item) {
-    item.quantity += change;
-    if (item.quantity <= 0) {
-      removeItem(nama);
-    } else {
-      saveCart(cart);
+  try {
+    let cart = getCart();
+    const item = cart.find(i => i.nama === nama);
+    if (item) {
+      item.quantity += change;
+      if (item.quantity <= 0) {
+        removeItem(nama);
+      } else {
+        saveCart(cart);
+      }
     }
+  } catch (e) {
+    console.error('Error updating quantity:', e);
   }
 }
 
@@ -139,13 +165,13 @@ function renderCart() {
 
   // Event listener untuk tombol checkout
   checkoutBtn.addEventListener('click', () => {
-    const customerName = document.getElementById('customer-name').value;
-    if (!customerName) {
+    const customerName = document.getElementById('customer-name');
+    if (!customerName || !customerName.value) {
       alert('Mohon masukkan nama Anda untuk proses checkout.');
       return;
     }
 
-    let whatsappText = `Halo, saya *${customerName}*. Saya ingin memesan dari Kampoeng Kelong.\n\n`;
+    let whatsappText = `Halo, saya *${customerName.value}*. Saya ingin memesan dari Kampoeng Kelong.\n\n`;
     whatsappText += `*Daftar Pesanan:*\n`;
     cart.forEach(item => {
       const qty = item.quantity || 1;
@@ -157,4 +183,4 @@ function renderCart() {
     const encodedText = encodeURIComponent(whatsappText);
     window.open(`https://wa.me/${whatsappNumber}?text=${encodedText}`, '_blank');
   });
-                                        }
+}
